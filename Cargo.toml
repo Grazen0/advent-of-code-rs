@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "aoc-lib"
+]
+
+resolver = "2"
