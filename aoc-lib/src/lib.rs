@@ -1,5 +1,11 @@
 use clap::Parser;
-use std::{fmt::Display, fs, path::Path};
+use core::panic;
+use std::{
+    fmt::Display,
+    fs,
+    path::Path,
+    time::{Duration, Instant},
+};
 
 pub trait PuzzleSolution {
     type Input;
@@ -73,6 +79,19 @@ struct Args {
     visualize: bool,
 }
 
+fn bench<T, F: Fn() -> T>(f: F) -> (T, Duration) {
+    let now = Instant::now();
+    let result = f();
+    (result, now.elapsed())
+}
+
+fn run_part<I, F: Fn(&I) -> Box<dyn Display>>(f: F, input: &I) {
+    let (result, elapsed) = bench(|| f(input));
+
+    println!("Result: {}", result);
+    println!("Elapsed: {:.2?}", elapsed);
+}
+
 pub fn run_solution<S: PuzzleSolution>(
     date: &PuzzleDate,
 ) -> Result<(), Box<dyn std::error::Error>> {
@@ -83,7 +102,21 @@ pub fn run_solution<S: PuzzleSolution>(
         Some(filename) => fs::read_to_string(filename)?,
     };
 
-    let input = S::parse_input(raw_input.lines().map(|s| s.to_string()).collect());
+    let input = S::parse_input(raw_input.lines().map(String::from).collect());
+
+    if args.visualize {
+        S::visualize(&input);
+    } else {
+        match args.part {
+            None => {
+                run_part(S::part_1, &input);
+                run_part(S::part_2, &input);
+            }
+            Some(1) => run_part(S::part_1, &input),
+            Some(2) => run_part(S::part_2, &input),
+            Some(_) => todo!("add result for invalid part"),
+        }
+    }
 
     Ok(())
 }
