@@ -1,17 +1,12 @@
 use clap::Parser;
 use std::{
     env,
+    ffi::OsStr,
     fmt::Display,
     fs, io,
     path::Path,
     time::{Duration, Instant},
 };
-
-macro_rules! input_file {
-    ($date:expr) => {
-        format!("./.cache/{:04}-{:02}.txt", $date.year, $date.day)
-    };
-}
 
 pub trait PuzzleSolution {
     type Input;
@@ -96,6 +91,12 @@ fn run_part<I, F: FnOnce(&I) -> Box<dyn Display>>(f: F, input: &I) {
     println!("Elapsed: {:.2?}", elapsed);
 }
 
+fn write_dir_safe<P: AsRef<OsStr> + Sized, C: AsRef<[u8]>>(path: P, contents: C) -> io::Result<()> {
+    let path = Path::new(&path);
+    fs::create_dir_all(path.parent().expect("path does not have a parent"))?;
+    fs::write(path, contents)
+}
+
 pub fn cli<S: PuzzleSolution>(date: PuzzleDate) {
     let args = Args::parse();
     run_solution::<S>(args, date).unwrap_or_else(|e| eprintln!("Error: {}", e));
@@ -111,7 +112,7 @@ fn run_solution<S: PuzzleSolution>(
             Some(input) => input,
             None => {
                 let input = fetch_input(&date, &env::var("AOC_SESSION_ID")?)?;
-                fs::write(input_file!(date), &input)?;
+                fs::write("", &input)?;
                 input
             }
         },
