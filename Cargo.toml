@@ -2,6 +2,6 @@
 
 members = [
     "aoc-lib"
-]
+, "year_2023/day_01"]
 
 resolver = "2"

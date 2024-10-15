@@ -1,11 +1,17 @@
 use clap::Parser;
-use core::panic;
 use std::{
+    env,
     fmt::Display,
-    fs,
+    fs, io,
     path::Path,
     time::{Duration, Instant},
 };
+
+macro_rules! input_file {
+    ($date:expr) => {
+        format!("./.cache/{:04}-{:02}.txt", $date.year, $date.day)
+    };
+}
 
 pub trait PuzzleSolution {
     type Input;
@@ -35,9 +41,11 @@ impl PuzzleDate {
     pub fn new(year: u32, day: u32) -> Self {
         Self { year, day }
     }
-}
 
-// const SID: &'static str = "53616c7465645f5f155c22c9294728344416e6cfb1ec95637c01d2163082a95866dfaee8bb7fde010daf05a51f3342aec26250d9b33987b2985f2c296ddbc774";
+    pub fn to_date(&self) {
+        todo!();
+    }
+}
 
 pub fn fetch_input(date: &PuzzleDate, session_id: &str) -> Result<String, reqwest::Error> {
     let client = reqwest::blocking::Client::new();
@@ -52,22 +60,18 @@ pub fn fetch_input(date: &PuzzleDate, session_id: &str) -> Result<String, reqwes
         .and_then(|resp| resp.text())
 }
 
-fn get_input_for_date(
-    date: &PuzzleDate,
-    session_id: &str,
-) -> Result<String, Box<dyn std::error::Error>> {
+fn read_cached_input(date: &PuzzleDate) -> io::Result<Option<String>> {
     let path_str = format!("./.cache/{:04}-{:02}.txt", date.year, date.day);
     let path = Path::new(&path_str);
 
     if path.try_exists()? {
-        return Ok(fs::read_to_string(path_str)?);
+        fs::read_to_string(path).map(Some)
+    } else {
+        Ok(None)
     }
-
-    Ok(fetch_input(date, session_id)?)
 }
 
 #[derive(Parser, Debug)]
-#[command()]
 struct Args {
     #[arg(short, long)]
     input: Option<String>,
@@ -79,27 +83,38 @@ struct Args {
     visualize: bool,
 }
 
-fn bench<T, F: Fn() -> T>(f: F) -> (T, Duration) {
+fn bench<T, F: FnOnce() -> T>(f: F) -> (T, Duration) {
     let now = Instant::now();
     let result = f();
     (result, now.elapsed())
 }
 
-fn run_part<I, F: Fn(&I) -> Box<dyn Display>>(f: F, input: &I) {
+fn run_part<I, F: FnOnce(&I) -> Box<dyn Display>>(f: F, input: &I) {
     let (result, elapsed) = bench(|| f(input));
 
     println!("Result: {}", result);
     println!("Elapsed: {:.2?}", elapsed);
 }
 
-pub fn run_solution<S: PuzzleSolution>(
-    date: &PuzzleDate,
-) -> Result<(), Box<dyn std::error::Error>> {
+pub fn cli<S: PuzzleSolution>(date: PuzzleDate) {
     let args = Args::parse();
+    run_solution::<S>(args, date).unwrap_or_else(|e| eprintln!("Error: {}", e));
+}
 
+fn run_solution<S: PuzzleSolution>(
+    args: Args,
+    date: PuzzleDate,
+) -> Result<(), Box<dyn std::error::Error>> {
     let raw_input = match args.input {
-        None => get_input_for_date(date, "")?,
         Some(filename) => fs::read_to_string(filename)?,
+        None => match read_cached_input(&date)? {
+            Some(input) => input,
+            None => {
+                let input = fetch_input(&date, &env::var("AOC_SESSION_ID")?)?;
+                fs::write(input_file!(date), &input)?;
+                input
+            }
+        },
     };
 
     let input = S::parse_input(raw_input.lines().map(String::from).collect());
