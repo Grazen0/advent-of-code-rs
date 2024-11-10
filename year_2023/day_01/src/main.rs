@@ -1,4 +1,4 @@
-use aoc_lib::{PuzzleDate, PuzzleSolution};
+use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
 
 struct Day1;
 
@@ -9,8 +9,8 @@ impl PuzzleSolution for Day1 {
         raw_input
     }
 
-    fn part_1(_input: &Self::Input) -> Box<dyn std::fmt::Display> {
-        Box::new("hello")
+    fn part_1(_input: &Self::Input) -> SolutionResult {
+        Ok(Box::new("Hello, world!"))
     }
 }
 
