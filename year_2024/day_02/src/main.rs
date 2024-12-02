@@ -7,7 +7,7 @@ impl Report {
     fn is_safe(&self) -> bool {
         let diff_sign = (self.0[1] - self.0[0]).signum();
 
-        !self.0.windows(2).any(|window| {
+        self.0.windows(2).all(|window| {
             let diff = window[1] - window[0];
             (1..=3).contains(&diff.abs()) && diff.signum() == diff_sign
         })
