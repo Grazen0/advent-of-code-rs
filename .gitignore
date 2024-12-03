@@ -1,7 +1,7 @@
-/target
+target/
 
-/.direnv
-/.envrc
+.direnv/
+.envrc
 
 # Test inputs
 *.txt
