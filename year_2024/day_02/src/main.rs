@@ -27,6 +27,7 @@ struct Day2;
 
 impl PuzzleSolution for Day2 {
     type Input = Vec<Report>;
+    type Output = usize;
 
     fn parse_input(raw_input: Vec<String>) -> Self::Input {
         raw_input
@@ -36,14 +37,14 @@ impl PuzzleSolution for Day2 {
             .collect()
     }
 
-    fn part_1(reports: &Self::Input) -> SolutionResult {
+    fn part_1(reports: &Self::Input) -> SolutionResult<Self::Output> {
         let count = reports.iter().filter(|r| r.is_safe()).count();
-        Ok(Box::new(count))
+        Ok(count)
     }
 
-    fn part_2(reports: &Self::Input) -> SolutionResult {
+    fn part_2(reports: &Self::Input) -> SolutionResult<Self::Output> {
         let count = reports.iter().filter(|r| r.is_dampened_safe()).count();
-        Ok(Box::new(count))
+        Ok(count)
     }
 }
 
