@@ -5,7 +5,7 @@ use crate::{
 };
 use clap::Parser;
 use colored::Colorize;
-use std::{env, fs};
+use std::{env, fmt::Display, fs};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -19,9 +19,9 @@ struct Args {
     visualize: bool,
 }
 
-fn run_part<F, I>(f: F, input: &I, part: u32)
+fn run_part<F, I, T: Display>(f: F, input: &I, part: u32)
 where
-    F: FnOnce(&I) -> SolutionResult,
+    F: FnOnce(&I) -> SolutionResult<T>,
 {
     println!(
         "{}",

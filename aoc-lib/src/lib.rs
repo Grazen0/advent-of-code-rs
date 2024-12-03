@@ -5,7 +5,7 @@ mod util;
 pub use cli::cli;
 use std::fmt::Display;
 
-pub type SolutionResult = Result<Box<dyn Display>, SolutionError>;
+pub type SolutionResult<T> = Result<T, SolutionError>;
 
 #[derive(Debug)]
 pub enum SolutionError {
@@ -28,14 +28,15 @@ impl Display for SolutionError {
 
 pub trait PuzzleSolution {
     type Input;
+    type Output: Display;
 
     fn parse_input(raw_input: Vec<String>) -> Self::Input;
 
-    fn part_1(_input: &Self::Input) -> SolutionResult {
+    fn part_1(_input: &Self::Input) -> SolutionResult<Self::Output> {
         Err(SolutionError::Unimplemented)
     }
 
-    fn part_2(_input: &Self::Input) -> SolutionResult {
+    fn part_2(_input: &Self::Input) -> SolutionResult<Self::Output> {
         Err(SolutionError::Unimplemented)
     }
 

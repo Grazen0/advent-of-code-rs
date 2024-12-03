@@ -6,6 +6,7 @@ struct Day1;
 
 impl PuzzleSolution for Day1 {
     type Input = (Vec<i32>, Vec<i32>);
+    type Output = usize;
 
     fn parse_input(raw_input: Vec<String>) -> Self::Input {
         raw_input
@@ -22,7 +23,7 @@ impl PuzzleSolution for Day1 {
             .unzip()
     }
 
-    fn part_1(input: &Self::Input) -> SolutionResult {
+    fn part_1(input: &Self::Input) -> SolutionResult<Self::Output> {
         let (mut left, mut right) = input.clone();
         left.sort();
         right.sort();
@@ -30,12 +31,12 @@ impl PuzzleSolution for Day1 {
         let sum = left
             .into_iter()
             .zip(right.into_iter())
-            .map(|(a, b)| a.abs_diff(b))
-            .sum::<u32>();
-        Ok(Box::new(sum))
+            .map(|(a, b)| a.abs_diff(b) as usize)
+            .sum::<usize>();
+        Ok(sum)
     }
 
-    fn part_2((left, right): &Self::Input) -> SolutionResult {
+    fn part_2((left, right): &Self::Input) -> SolutionResult<Self::Output> {
         let mut freqs = HashMap::<i32, usize>::new();
 
         for &n in right {
@@ -47,7 +48,7 @@ impl PuzzleSolution for Day1 {
             .into_iter()
             .map(|&l| (l as usize) * freqs.get(&l).unwrap_or(&0))
             .sum::<usize>();
-        Ok(Box::new(sum))
+        Ok(sum)
     }
 }
 
