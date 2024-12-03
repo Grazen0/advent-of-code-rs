@@ -30,7 +30,7 @@ pub trait PuzzleSolution {
     type Input;
     type Output: Display;
 
-    fn parse_input(raw_input: Vec<String>) -> Self::Input;
+    fn parse_input(raw_input: String) -> Self::Input;
 
     fn part_1(_input: &Self::Input) -> SolutionResult<Self::Output> {
         Err(SolutionError::Unimplemented)

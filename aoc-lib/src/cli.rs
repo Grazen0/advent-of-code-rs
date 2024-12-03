@@ -72,7 +72,7 @@ fn cli_result<S: PuzzleSolution>(
         },
     };
 
-    let input = S::parse_input(raw_input.lines().map(String::from).collect());
+    let input = S::parse_input(raw_input);
 
     if args.visualize {
         S::visualize(&input);

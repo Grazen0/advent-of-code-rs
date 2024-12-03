@@ -8,9 +8,9 @@ impl PuzzleSolution for Day1 {
     type Input = (Vec<i32>, Vec<i32>);
     type Output = usize;
 
-    fn parse_input(raw_input: Vec<String>) -> Self::Input {
+    fn parse_input(raw_input: String) -> Self::Input {
         raw_input
-            .iter()
+            .lines()
             .map(|line| {
                 let parts = line
                     .trim()

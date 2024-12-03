@@ -29,9 +29,9 @@ impl PuzzleSolution for Day2 {
     type Input = Vec<Report>;
     type Output = usize;
 
-    fn parse_input(raw_input: Vec<String>) -> Self::Input {
+    fn parse_input(raw_input: String) -> Self::Input {
         raw_input
-            .iter()
+            .lines()
             .map(|s| s.split_whitespace().map(|n| n.parse().unwrap()).collect())
             .map(Report)
             .collect()
