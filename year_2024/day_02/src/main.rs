@@ -1,4 +1,4 @@
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 #[derive(Debug, Clone)]
 struct Report(Vec<i32>);
@@ -49,5 +49,5 @@ impl PuzzleSolution for Day2 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day2>(PuzzleDate::new(2024, 2));
+    aoc_lib::cli::run_solution::<Day2>(2024, 2);
 }

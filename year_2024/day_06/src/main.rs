@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Cell {
@@ -201,5 +201,5 @@ impl PuzzleSolution for Day6 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day6>(PuzzleDate::new(2024, 6));
+    aoc_lib::cli::run_solution::<Day6>(2024, 6);
 }

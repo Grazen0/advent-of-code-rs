@@ -1,6 +1,6 @@
 use std::{num::ParseIntError, str::FromStr};
 
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 #[derive(Debug, Clone)]
 struct OrderingRule(u32, u32);
@@ -109,5 +109,5 @@ impl PuzzleSolution for Day5 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day5>(PuzzleDate::new(2024, 5));
+    aoc_lib::cli::run_solution::<Day5>(2024, 5);
 }

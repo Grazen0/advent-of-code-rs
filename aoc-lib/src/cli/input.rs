@@ -1,4 +1,4 @@
-use crate::PuzzleDate;
+use crate::cli::PuzzleDate;
 use directories::ProjectDirs;
 use std::{fs, io, path::PathBuf};
 

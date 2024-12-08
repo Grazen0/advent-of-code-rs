@@ -1,6 +1,5 @@
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 use std::collections::HashMap;
-
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
 
 #[derive(Debug, Clone, Copy)]
 enum Direction {
@@ -132,5 +131,5 @@ impl PuzzleSolution for Day3 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day3>(PuzzleDate::new(2019, 3));
+    aoc_lib::cli::run_solution::<Day3>(2019, 3);
 }

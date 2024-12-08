@@ -1,6 +1,5 @@
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 use std::ops::RangeInclusive;
-
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
 
 fn digits(mut n: u32) -> Vec<u32> {
     let mut digits = Vec::new();
@@ -63,5 +62,5 @@ impl PuzzleSolution for Day4 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day4>(PuzzleDate::new(2019, 4));
+    aoc_lib::cli::run_solution::<Day4>(2019, 4);
 }

@@ -1,4 +1,4 @@
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 const SEARCH: [char; 4] = ['X', 'M', 'A', 'S'];
 
@@ -192,5 +192,5 @@ impl PuzzleSolution for Day4 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day4>(PuzzleDate::new(2024, 4));
+    aoc_lib::cli::run_solution::<Day4>(2024, 4);
 }

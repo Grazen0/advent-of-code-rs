@@ -1,4 +1,4 @@
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 fn concat_nums(left: u64, right: u64) -> u64 {
     let mut str = left.to_string();
@@ -117,5 +117,5 @@ impl PuzzleSolution for Day7 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day7>(PuzzleDate::new(2024, 7));
+    aoc_lib::cli::run_solution::<Day7>(2024, 7);
 }

@@ -1,4 +1,4 @@
-use aoc_lib::{PuzzleDate, PuzzleSolution, SolutionResult};
+use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
 struct Day3;
 
@@ -90,5 +90,5 @@ impl PuzzleSolution for Day3 {
 }
 
 fn main() {
-    aoc_lib::cli::<Day3>(PuzzleDate::new(2024, 3));
+    aoc_lib::cli::run_solution::<Day3>(2024, 3);
 }
