@@ -1,6 +1,6 @@
 use aoc_lib::{
     cli::{PuzzleSolution, SolutionResult},
-    helper::{math, Index2D},
+    helper::structs::Index2D,
 };
 use std::collections::{HashMap, HashSet};
 

@@ -1,54 +1,19 @@
 use std::{
     fs::{self, File},
-    io::{self, Write},
-    ops::{AddAssign, Mul, Range},
-    thread,
-    time::Duration,
+    io::Write,
+    ops::Range,
 };
 
-use aoc_lib::cli::{PuzzleSolution, SolutionResult};
+use aoc_lib::{
+    cli::{PuzzleSolution, SolutionResult},
+    helper::structs::Vector2D,
+};
 
-#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash)]
-pub struct Vector2D<T> {
-    pub x: T,
-    pub y: T,
-}
-
-impl<T> Vector2D<T> {
-    pub fn new(x: T, y: T) -> Self {
-        Self { x, y }
-    }
-
-    pub fn to_array(self) -> [T; 2] {
-        [self.x, self.y]
-    }
-}
-
-impl<T: AddAssign> AddAssign<Vector2D<T>> for Vector2D<T> {
-    fn add_assign(&mut self, rhs: Self) {
-        self.x += rhs.x;
-        self.y += rhs.y;
-    }
-}
-
-impl<T: Mul<Output = T> + Copy> Mul<T> for Vector2D<T> {
-    type Output = Self;
-
-    fn mul(self, rhs: T) -> Self {
-        Self {
-            x: self.x * rhs,
-            y: self.y * rhs,
-        }
-    }
-}
-
-impl From<&str> for Vector2D<i32> {
-    fn from(s: &str) -> Self {
-        let (x, y) = s.split_once(",").unwrap();
-        Self {
-            x: x.parse().unwrap(),
-            y: y.parse().unwrap(),
-        }
+fn parse_vector(s: &str) -> Vector2D<i32> {
+    let (x, y) = s.split_once(",").unwrap();
+    Vector2D {
+        x: x.parse().unwrap(),
+        y: y.parse().unwrap(),
     }
 }
 
@@ -78,8 +43,8 @@ impl PuzzleSolution for Day14 {
                 let (p, v) = line.split_once(" ").unwrap();
 
                 Robot {
-                    position: Vector2D::from(p.split_once("=").unwrap().1),
-                    velocity: Vector2D::from(v.split_once("=").unwrap().1),
+                    position: parse_vector(p.split_once("=").unwrap().1),
+                    velocity: parse_vector(v.split_once("=").unwrap().1),
                 }
             })
             .collect::<Vec<_>>()

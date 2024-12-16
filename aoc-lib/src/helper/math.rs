@@ -15,3 +15,7 @@ pub fn gcd<T: Integer + Copy>(mut a: T, mut b: T) -> T {
         a
     }
 }
+
+pub fn lcm<T: Integer + Copy>(a: T, b: T) -> T {
+    a / gcd(a, b) * b
+}
