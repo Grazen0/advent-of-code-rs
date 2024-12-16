@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 use aoc_lib::cli::{PuzzleSolution, SolutionResult};
 
@@ -25,19 +25,6 @@ impl Direction {
             Self::Down => Self::Left,
             Self::Left => Self::Up,
         }
-    }
-
-    fn inverted(&self) -> Self {
-        match self {
-            Self::Up => Self::Down,
-            Self::Right => Self::Left,
-            Self::Down => Self::Up,
-            Self::Left => Self::Right,
-        }
-    }
-
-    fn rotated_counter_clockwise(&self) -> Self {
-        self.inverted().rotated_clockwise()
     }
 }
 
@@ -122,7 +109,6 @@ impl PuzzleSolution for Day12 {
     fn part_2(grid: &Self::Input) -> SolutionResult<Self::Output> {
         let mut sum = 0;
         let mut visited = HashSet::new();
-        let mut traversed_directions = HashMap::<Position, HashSet<Direction>>::new();
 
         for root_i in 0..grid.len() {
             for root_j in 0..grid[0].len() {
