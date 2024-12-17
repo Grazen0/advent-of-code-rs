@@ -1,0 +1,8 @@
+[package]
+name = "day_05"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aoc-lib = { version = "0.1.0", path = "../../aoc-lib" }
+intcode = { version = "0.1.0", path = "../intcode" }
