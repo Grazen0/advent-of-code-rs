@@ -14,7 +14,6 @@ struct Day17Input {
 enum StepStatus {
     Continue,
     Halt,
-    Output,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -77,7 +76,6 @@ impl WeirdComputer {
             5 => {
                 let val = self.read_combo();
                 self.output.push((val % 8) as u8);
-                return StepStatus::Output;
             }
             6 => {
                 let pow = self.read_combo();
@@ -193,7 +191,6 @@ impl PuzzleSolution for Day17 {
                 match status {
                     StepStatus::Continue => {}
                     StepStatus::Halt => break,
-                    StepStatus::Output => {}
                 }
             }
 
